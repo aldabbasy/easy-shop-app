@@ -7,20 +7,14 @@ type authenticateUserProps = {
 };
 export async function authenticateUser({username, password}:authenticateUserProps) {
   try {
+    console.log(username)
     var data;
     const api = axios.create({
-      baseURL: `${API_URL}`,
-      headers: {
-        'Access-Control-Allow-Origin': '*'
-      },
-      data: {
-        username: `${username}`,
-        password: `${password}`
-      }
+      baseURL: `${API_URL}`
     });
 
-    await api.post(`/login`).then(res => {
-      data = JSON.parse(res.data);
+    await api.post(`/login`, { username: `${username}`, password: `${password}` }).then(res => {
+      data = res.data;
     });
     return data;
   }
