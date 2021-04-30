@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { useStyles } from './styled';
 import { authenticateUser } from '../../utils/auth';
+import AppStorage from '../../utils/AppStorage';
 
 const LoginView = () => {
   const classes = useStyles();
@@ -15,7 +16,7 @@ const LoginView = () => {
 
   const handleSubmitform = handleSubmit(form => {
     authenticateUser({username: form.username, password: form.password}).then((data) => {
-      console.log(data);
+      console.log(AppStorage.get('access-token'));
     })
   });
 

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { API_URL } from './constants';
+import AppStorage from './AppStorage';
 
 type authenticateUserProps = {
   username: string;
@@ -7,7 +8,6 @@ type authenticateUserProps = {
 };
 export async function authenticateUser({username, password}:authenticateUserProps) {
   try {
-    console.log(username)
     var data;
     const api = axios.create({
       baseURL: `${API_URL}`
@@ -15,6 +15,7 @@ export async function authenticateUser({username, password}:authenticateUserProp
 
     await api.post(`/login`, { username: `${username}`, password: `${password}` }).then(res => {
       data = res.data;
+      AppStorage.set('access-token',data.access_token);
     });
     return data;
   }
