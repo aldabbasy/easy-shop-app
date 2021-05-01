@@ -12,8 +12,7 @@ export async function authenticateUser({username, password}:authenticateUserProp
     const api = axios.create({
       baseURL: `${API_URL}`
     });
-
-    const encryptedPassword = btoa(unescape(encodeURIComponent(password)))
+    const encryptedPassword = btoa(unescape(encodeURIComponent(password)));
 
     await api.post(`/login`, { username: `${username}`, password: `${encryptedPassword}` }).then(res => {
       data = res.data;
