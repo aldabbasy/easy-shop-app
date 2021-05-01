@@ -6,7 +6,7 @@ function AppStorage() {
 
   function get(key: string) {
     const value = window?.localStorage?.getItem(key);
-    return value ? decodeURIComponent(escape(window.atob(value))) : 'null';
+    return value ? decodeURIComponent(escape(window.atob(value))) : null;
   }
 
   function remove(key: string) {

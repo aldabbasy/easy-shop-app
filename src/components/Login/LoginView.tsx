@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { useHistory } from "react-router-dom";
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
@@ -7,16 +9,23 @@ import Button from '@material-ui/core/Button';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { useStyles } from './styled';
 import { authenticateUser } from '../../utils/auth';
-import AppStorage from '../../utils/AppStorage';
 
 const LoginView = () => {
   const classes = useStyles();
+  const history = useHistory();
+  const [loading, setLoading] = useState(false);
+  
   const { control, handleSubmit, errors } = useForm();
   const onChange = (args:any) => ({ value: args[0].target.value });
 
   const handleSubmitform = handleSubmit(form => {
+    setLoading(true);
     authenticateUser({username: form.username, password: form.password}).then((data) => {
-      console.log(AppStorage.get('access-token'));
+      history.push('/');
+    }).catch((e) => {
+      alert('invalid username/password');
+    }).finally(() => {
+      setLoading(false);
     })
   });
 
@@ -74,8 +83,9 @@ const LoginView = () => {
           color="primary"
           className={classes.submit}
           onClick={handleSubmitform}
+          disabled={loading}
         >
-          Sign In
+          {loading ? <CircularProgress size={30} /> : 'Sign in'}
         </Button>
       </div>
     </div>

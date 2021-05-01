@@ -13,7 +13,9 @@ export async function authenticateUser({username, password}:authenticateUserProp
       baseURL: `${API_URL}`
     });
 
-    await api.post(`/login`, { username: `${username}`, password: `${password}` }).then(res => {
+    const encryptedPassword = btoa(unescape(encodeURIComponent(password)))
+
+    await api.post(`/login`, { username: `${username}`, password: `${encryptedPassword}` }).then(res => {
       data = res.data;
       AppStorage.set('access-token',data.access_token);
     });
