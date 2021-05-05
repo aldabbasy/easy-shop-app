@@ -61,7 +61,7 @@ const NavBar = () => {
 
   return (
     <div className={classes.grow}>
-      <AppBar position="static">
+      <AppBar position="static" color={'default'}>
         <Toolbar>
           <Typography className={classes.title} variant="h6" noWrap>
             EasyShop
