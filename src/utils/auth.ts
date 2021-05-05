@@ -24,3 +24,7 @@ export async function authenticateUser({username, password}:authenticateUserProp
     throw ex;
   }
 }
+
+export const isAuthenticated = () => {
+  return !!AppStorage.get('access-token');
+}

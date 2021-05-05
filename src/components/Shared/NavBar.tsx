@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -13,11 +13,9 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import MeetingRoomRoundedIcon from '@material-ui/icons/MeetingRoomRounded';
 import { useNavBarStyles } from './styled';
-import AppStorage from '../../utils/AppStorage';
 
 const NavBar = () => {
   const classes = useNavBarStyles();
-  const history = useHistory();
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
@@ -27,11 +25,6 @@ const NavBar = () => {
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
   };
-
-  const handleLogout = () => {
-    AppStorage.remove('access-token');
-    history.replace('/login');
-  }
 
   const renderMobileMenu = (
     <Menu
@@ -55,18 +48,20 @@ const NavBar = () => {
         </IconButton>
         <p>Cart</p>
       </MenuItem>
-      <MenuItem className={classes.logoutBtn} onClick={handleLogout} >
-        <IconButton aria-label="Logout" color='inherit'>
-          <MeetingRoomRoundedIcon />
-        </IconButton>
-        <p>Logout</p>
-      </MenuItem>
+      <Link to='/logout'>
+        <MenuItem className={classes.logoutBtn} >
+          <IconButton aria-label="Logout" color='inherit'>
+            <MeetingRoomRoundedIcon />
+          </IconButton>
+          <p>Logout</p>
+        </MenuItem>
+      </Link>
     </Menu>
   );
 
   return (
     <div className={classes.grow}>
-      <AppBar position="static">
+      <AppBar position="static" color={'default'}>
         <Toolbar>
           <Typography className={classes.title} variant="h6" noWrap>
             EasyShop
@@ -92,9 +87,11 @@ const NavBar = () => {
             <IconButton aria-label="Cart" color="inherit">
               <ShoppingCartRoundedIcon />
             </IconButton>
-            <IconButton onClick={handleLogout} aria-label="Logout" color='secondary'>
-              <MeetingRoomRoundedIcon />
-            </IconButton>
+            <Link to='/logout'>
+              <IconButton aria-label="Logout" color='secondary'>
+                <MeetingRoomRoundedIcon />
+              </IconButton>
+            </Link>
           </div>
           <div className={classes.sectionMobile}>
             <IconButton

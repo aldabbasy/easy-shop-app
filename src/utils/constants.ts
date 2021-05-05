@@ -1,5 +1,1 @@
-export const API_URL = 'http://41fe8d35c300.ngrok.io';
-export const COLORS = {
-    white: '#fff',
-    black: '#000'
-}
+export const API_URL = 'http://794e823d71d8.ngrok.io';
