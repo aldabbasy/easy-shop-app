@@ -3,19 +3,19 @@ import axios from 'axios';
 import { API_URL } from '../utils/constants';
 import AppStorage from '../utils/AppStorage';
 
-type useAxiosReturnType = {
+type useAxiosGetReturnType = {
   data: any;
   loading: boolean;
 }
 
-type useAxiosProps = {
+type useAxiosGetProps = {
   endpoint: string;
   body?: any;
   callback?: () => {};
   method: string;
 }
 
-const useAxios = ({ endpoint, body, callback, method }: useAxiosProps): useAxiosReturnType => {
+const useAxiosGet = ({ endpoint, body, callback }: useAxiosGetProps): useAxiosGetReturnType => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -36,19 +36,13 @@ const useAxios = ({ endpoint, body, callback, method }: useAxiosProps): useAxios
       }
     });
 
-    if(method === 'GET'){
-      api.get(`${API_URL}/${endpoint}`).then(res => {
-        afterResolve(res.data);
-      });
-    }
-    else{
-      api.post(`/${endpoint}`, body).then(res => {
-        afterResolve(res.data);
-      });
-    }
-  }, [afterResolve, body, endpoint, method]);
+    api.get(`${API_URL}/${endpoint}`).then(res => {
+      afterResolve(res.data);
+    });
+
+  }, [afterResolve, body, endpoint]);
 
   return { data, loading };
 };
 
-export default useAxios;
+export default useAxiosGet;
