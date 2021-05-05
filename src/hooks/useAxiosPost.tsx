@@ -21,6 +21,12 @@ const useAxiosPost = ({ endpoint, body, callback }: useAxiosPostProps): useAxios
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState<boolean>(false);
 
+  const api = axios.create({
+    headers: {
+      'Authorization': `Bearer ${AppStorage.get('access-token')}`
+    }
+  });
+
   const afterResolve = useCallback((data) => {
       setData(data);
       setLoading(false);
@@ -32,12 +38,6 @@ const useAxiosPost = ({ endpoint, body, callback }: useAxiosPostProps): useAxios
   );
 
   const sendRequest = () => {
-    const api = axios.create({
-      headers: {
-        'Authorization': `Bearer ${AppStorage.get('access-token')}`
-      }
-    });
-
     setLoading(true);
 
     api.post(`${API_URL}/${endpoint}`, body).then(res => {
