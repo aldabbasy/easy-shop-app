@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import axios from 'axios';
 import { API_URL } from '../utils/constants';
 import AppStorage from '../utils/AppStorage';
@@ -14,8 +14,7 @@ type useAxiosPostReturnType = [
 type useAxiosPostProps = {
   endpoint: string;
   body?: any;
-  callback?: () => {};
-  method: string;
+  callback?: () => any;
 }
 
 const useAxiosPost = ({ endpoint, body, callback }: useAxiosPostProps): useAxiosPostReturnType => {
@@ -41,7 +40,7 @@ const useAxiosPost = ({ endpoint, body, callback }: useAxiosPostProps): useAxios
 
     setLoading(true);
 
-    api.post(`/${endpoint}`, body).then(res => {
+    api.post(`${API_URL}/${endpoint}`, body).then(res => {
       afterResolve(res.data);
     });
   }

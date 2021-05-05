@@ -10,12 +10,10 @@ type useAxiosGetReturnType = {
 
 type useAxiosGetProps = {
   endpoint: string;
-  body?: any;
   callback?: () => {};
-  method: string;
 }
 
-const useAxiosGet = ({ endpoint, body, callback }: useAxiosGetProps): useAxiosGetReturnType => {
+const useAxiosGet = ({ endpoint, callback }: useAxiosGetProps): useAxiosGetReturnType => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -40,7 +38,7 @@ const useAxiosGet = ({ endpoint, body, callback }: useAxiosGetProps): useAxiosGe
       afterResolve(res.data);
     });
 
-  }, [afterResolve, body, endpoint]);
+  }, [afterResolve, endpoint]);
 
   return { data, loading };
 };

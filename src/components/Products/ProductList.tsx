@@ -6,7 +6,7 @@ import Box from '@material-ui/core/Box';
 
 const ProductList = () => {
 
-  const {data, loading} = useAxiosGet({endpoint: 'api/products/', method: 'GET'});
+  const {data, loading} = useAxiosGet({endpoint: 'api/products/'});
   
   return (
     <Box padding={4}>
