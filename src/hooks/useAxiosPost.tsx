@@ -34,10 +34,10 @@ const useAxiosPost = ({ endpoint, body, callback }: useAxiosPostProps): useAxios
 
   const sendRequest = () => {
     const api = axios.create({
-      headers: {
-        'Authorization': `Bearer ${AppStorage.get('access-token')}`
-      }
-    });
+    headers: {
+      'Authorization': `Bearer ${AppStorage.get('access-token')}`
+    }
+  });
 
     setLoading(true);
 
