@@ -18,8 +18,8 @@ const useAxiosGet = ({ endpoint, callback }: useAxiosGetProps): useAxiosGetRetur
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState<boolean>(true);
 
-  const afterResolve = useCallback((data) => {
-      setData(data);
+  const afterResolve = useCallback((responseData) => {
+      setData(responseData);
       setLoading(false);
 
       if(callback){
