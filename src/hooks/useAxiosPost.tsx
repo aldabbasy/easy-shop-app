@@ -30,7 +30,7 @@ const useAxiosPost = ({ endpoint }: useAxiosPostProps): useAxiosPostReturnType =
     setLoading(true);
 
     await api.post(`${API_URL}/${endpoint}`, body).then(res => {
-      setData(data);
+      setData(res.data);
       setLoading(false);
     });
   }
