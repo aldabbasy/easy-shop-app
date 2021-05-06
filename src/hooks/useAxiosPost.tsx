@@ -17,6 +17,12 @@ type useAxiosPostProps = {
 }
 
 const useAxiosPost = ({ endpoint }: useAxiosPostProps): useAxiosPostReturnType => {
+=======
+  callback?: () => any;
+}
+
+const useAxiosPost = ({ endpoint, body, callback }: useAxiosPostProps): useAxiosPostReturnType => {
+
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -26,12 +32,29 @@ const useAxiosPost = ({ endpoint }: useAxiosPostProps): useAxiosPostReturnType =
     }
   });
 
+
   const sendRequest = async(body) => {
     setLoading(true);
 
     await api.post(`${API_URL}/${endpoint}`, body).then(res => {
       setData(data);
       setLoading(false);
+
+  const afterResolve = useCallback((data) => {
+      setData(data);
+      setLoading(false);
+
+      if(callback){
+        callback();
+      }
+    },[setData, setLoading, callback]
+  );
+
+  const sendRequest = () => {
+    setLoading(true);
+
+    api.post(`${API_URL}/${endpoint}`, body).then(res => {
+      afterResolve(res.data);
     });
   }
 

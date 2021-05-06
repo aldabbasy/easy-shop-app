@@ -28,6 +28,7 @@ const useAxiosGet = ({ endpoint, callback }: useAxiosGetProps): useAxiosGetRetur
     },[setData, setLoading, callback]
   );
 
+
   const api = useCallback(axios.create({
     headers: {
       'Authorization': `Bearer ${AppStorage.get('access-token')}`

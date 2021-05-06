@@ -20,7 +20,10 @@ const useStyles = makeStyles((theme) => ({
   },
   actionBtns: {
     marginLeft: 'auto',
-  }
+  },
+  actionBtns: {
+    marginLeft: 'auto',
+  },
 }));
 
 const ProductCard = ({product}) => {

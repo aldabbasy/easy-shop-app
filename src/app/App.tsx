@@ -4,6 +4,7 @@ import { createMuiTheme, MuiThemeProvider } from '@material-ui/core';
 import Routes from './Routes';
 import cyan from '@material-ui/core/colors/cyan';
 
+
 const lightTheme = createMuiTheme({
   palette: {
     type: 'light'
