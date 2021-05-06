@@ -48,7 +48,7 @@ const ProductCard = ({product}) => {
         </CardActionArea>
         <CardActions>
           <Box display={'flex'} justifyContent={'space-between'} width={'100%'} paddingRight={1} paddingLeft={1}>
-            <Typography variant='body1' color="textSecondary" component="p">
+            <Typography variant='h5' color="primary" component="p">
               ${product?.price}
             </Typography>
             <Button size="small" variant={'contained'} color="secondary" endIcon={<AddShoppingCartIcon />}>
