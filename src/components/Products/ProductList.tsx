@@ -1,6 +1,5 @@
 
 import React, { useState } from 'react';
-import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import ProductCard from './ProductCard';
 import useAxiosGet from '../../hooks/useAxiosGet';
