@@ -1,0 +1,1 @@
+export const isValidNumber = /^([0-9]*)$/;

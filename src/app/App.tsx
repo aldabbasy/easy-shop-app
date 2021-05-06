@@ -2,6 +2,8 @@ import React from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core';
 import Routes from './Routes';
+import cyan from '@material-ui/core/colors/cyan';
+
 
 const lightTheme = createMuiTheme({
   palette: {
@@ -11,7 +13,8 @@ const lightTheme = createMuiTheme({
 
 const darkTheme = createMuiTheme({
   palette: {
-    type: 'dark'
+    type: 'dark',
+    primary: cyan
   },
 });
 

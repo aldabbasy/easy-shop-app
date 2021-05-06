@@ -1,10 +1,10 @@
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import { API_URL } from '../utils/constants';
 import AppStorage from '../utils/AppStorage';
 
 type useAxiosPostReturnType = [
-  () => void,
+  (body:any) => Promise<any>,
   {
     data: any;
     loading: boolean;
@@ -14,10 +14,15 @@ type useAxiosPostReturnType = [
 type useAxiosPostProps = {
   endpoint: string;
   body?: any;
+}
+
+const useAxiosPost = ({ endpoint }: useAxiosPostProps): useAxiosPostReturnType => {
+=======
   callback?: () => any;
 }
 
 const useAxiosPost = ({ endpoint, body, callback }: useAxiosPostProps): useAxiosPostReturnType => {
+
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -26,6 +31,14 @@ const useAxiosPost = ({ endpoint, body, callback }: useAxiosPostProps): useAxios
       'Authorization': `Bearer ${AppStorage.get('access-token')}`
     }
   });
+
+
+  const sendRequest = async(body) => {
+    setLoading(true);
+
+    await api.post(`${API_URL}/${endpoint}`, body).then(res => {
+      setData(data);
+      setLoading(false);
 
   const afterResolve = useCallback((data) => {
       setData(data);
