@@ -39,7 +39,7 @@ const useAxiosGet = ({ endpoint, callback }: useAxiosGetProps): useAxiosGetRetur
     setLoading(true);
 
     await api.get(`${API_URL}/${endpoint}`).then(res => {
-      setData(data);
+      setData(res.data);
       setLoading(false);
     });
   }
