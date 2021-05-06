@@ -16,6 +16,7 @@ import { makeStyles } from '@material-ui/core';
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: '100%',
+    maxHeight: 250,
   },
   actionBtns: {
     marginLeft: 'auto',
@@ -40,10 +41,10 @@ const ProductCard = ({product}) => {
             }
           />
           <CardContent>
-          <Typography variant="body2" color="textSecondary" component="p">
-            {product?.description}
-          </Typography>
-        </CardContent>
+            <Typography variant="body2" color="textSecondary" component="p">
+              {product?.description.slice(0, 200)}
+            </Typography>
+          </CardContent>
         </CardActionArea>
         <CardActions>
           <Box display={'flex'} justifyContent={'space-between'} width={'100%'} paddingRight={1} paddingLeft={1}>

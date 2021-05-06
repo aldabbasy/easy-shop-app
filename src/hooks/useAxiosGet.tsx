@@ -6,6 +6,7 @@ import AppStorage from '../utils/AppStorage';
 type useAxiosGetReturnType = {
   data: any;
   loading: boolean;
+  refetch: () => Promise<any>;
 }
 
 type useAxiosGetProps = {
@@ -27,20 +28,31 @@ const useAxiosGet = ({ endpoint, callback }: useAxiosGetProps): useAxiosGetRetur
     },[setData, setLoading, callback]
   );
 
-  useEffect(() => {
-    const api = axios.create({
-      headers: {
-        'Authorization': `Bearer ${AppStorage.get('access-token')}`
-      }
+  const api = useCallback(axios.create({
+    headers: {
+      'Authorization': `Bearer ${AppStorage.get('access-token')}`
+    }
+  }),[]
+  );
+
+  const refetch = async() => {
+    setLoading(true);
+
+    await api.get(`${API_URL}/${endpoint}`).then(res => {
+      setData(data);
+      setLoading(false);
     });
+  }
+
+  useEffect(() => {
 
     api.get(`${API_URL}/${endpoint}`).then(res => {
       afterResolve(res.data);
     });
 
-  }, [afterResolve, endpoint]);
+  }, [afterResolve, endpoint, api]);
 
-  return { data, loading };
+  return { data, loading, refetch };
 };
 
 export default useAxiosGet;
