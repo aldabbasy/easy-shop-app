@@ -6,7 +6,6 @@ import CardHeader from '@material-ui/core/CardHeader';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
-import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
@@ -21,10 +20,7 @@ const useStyles = makeStyles((theme) => ({
   },
   actionBtns: {
     marginLeft: 'auto',
-  },
-  media: {
-    height: 100,
-  },
+  }
 }));
 
 const ProductCard = ({product}) => {
@@ -43,11 +39,6 @@ const ProductCard = ({product}) => {
                 <ChevronRightOutlinedIcon />  
               </IconButton>
             }
-          />
-          <CardMedia
-            className={classes.media}
-            image={`https://picsum.photos/200?rand=${product?.name}`}
-            title={product?.name}
           />
           <CardContent>
             <Typography variant="body2" color="textSecondary" component="p">
