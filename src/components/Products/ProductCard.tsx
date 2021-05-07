@@ -81,6 +81,7 @@ const ProductCard = ({product}) => {
                   onClick={() => {
                     setQuantity(quantity + 1);
                   }}
+                  disabled={quantity === product.quantity}
                 >
                   <AddIcon fontSize="small" />
                 </Button>
