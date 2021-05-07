@@ -11,6 +11,12 @@ export const useNavBarStyles = makeStyles((theme: Theme) =>
         display: 'block',
       },
     },
+    usernameContainer: {
+      flexGrow: 1,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'flex-end'
+    },
     search: {
       position: 'relative',
       borderRadius: theme.shape.borderRadius,
