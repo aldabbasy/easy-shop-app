@@ -28,7 +28,6 @@ const useAxiosGet = ({ endpoint, callback }: useAxiosGetProps): useAxiosGetRetur
     },[setData, setLoading, callback]
   );
 
-
   const api = useCallback(axios.create({
     headers: {
       'Authorization': `Bearer ${AppStorage.get('access-token')}`
@@ -38,6 +37,12 @@ const useAxiosGet = ({ endpoint, callback }: useAxiosGetProps): useAxiosGetRetur
 
   const refetch = async() => {
     setLoading(true);
+    const token = AppStorage.get('access-token');
+    const api = axios.create({
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
 
     await api.get(`${API_URL}/${endpoint}`).then(res => {
       setData(res.data);
@@ -46,6 +51,13 @@ const useAxiosGet = ({ endpoint, callback }: useAxiosGetProps): useAxiosGetRetur
   }
 
   useEffect(() => {
+    const token = AppStorage.get('access-token');
+
+    const api = axios.create({
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
 
     api.get(`${API_URL}/${endpoint}`).then(res => {
       afterResolve(res.data);

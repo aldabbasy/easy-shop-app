@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -11,11 +11,14 @@ import HomeRoundedIcon from '@material-ui/icons/HomeRounded';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
+import Badge from '@material-ui/core/Badge';
 import MeetingRoomRoundedIcon from '@material-ui/icons/MeetingRoomRounded';
 import { useNavBarStyles } from './styled';
+import UserContext from '../../contexts/UserContext';
 
 const NavBar = () => {
   const classes = useNavBarStyles();
+  const userData = useContext(UserContext);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
@@ -59,6 +62,10 @@ const NavBar = () => {
     </Menu>
   );
 
+  useEffect(() => {
+    userData.refetchUserData();
+  }, [])
+
   return (
     <div className={classes.grow}>
       <AppBar position="static" color={'default'}>
@@ -79,13 +86,19 @@ const NavBar = () => {
               inputProps={{ 'aria-label': 'search' }}
             />
           </div>
-          <div className={classes.grow} />
+          <div className={classes.usernameContainer} >
+            <Typography className={classes.title} variant={'h6'} noWrap>
+              {userData?.user_name}
+            </Typography>
+          </div>
           <div className={classes.sectionDesktop}>
             <IconButton aria-label="Home" color="inherit">
               <HomeRoundedIcon />
             </IconButton>
             <IconButton aria-label="Cart" color="inherit">
-              <ShoppingCartRoundedIcon />
+              <Badge badgeContent={userData?.cart_items_count} color="secondary">
+                <ShoppingCartRoundedIcon />
+              </Badge>
             </IconButton>
             <Link to='/logout'>
               <IconButton aria-label="Logout" color='secondary'>
