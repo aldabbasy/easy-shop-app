@@ -28,13 +28,6 @@ const useAxiosGet = ({ endpoint, callback }: useAxiosGetProps): useAxiosGetRetur
     },[setData, setLoading, callback]
   );
 
-  const api = useCallback(axios.create({
-    headers: {
-      'Authorization': `Bearer ${AppStorage.get('access-token')}`
-    }
-  }),[]
-  );
-
   const refetch = async() => {
     setLoading(true);
     const token = AppStorage.get('access-token');
@@ -63,7 +56,7 @@ const useAxiosGet = ({ endpoint, callback }: useAxiosGetProps): useAxiosGetRetur
       afterResolve(res.data);
     });
 
-  }, [afterResolve, endpoint, api]);
+  }, [afterResolve, endpoint]);
 
   return { data, loading, refetch };
 };
