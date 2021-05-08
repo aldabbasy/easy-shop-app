@@ -6,6 +6,7 @@ import AppStorage from '../utils/AppStorage';
 type useAxiosGetReturnType = {
   data: any;
   loading: boolean;
+  error: any;
   refetch: () => Promise<any>;
 }
 
@@ -17,15 +18,14 @@ type useAxiosGetProps = {
 const useAxiosGet = ({ endpoint, callback }: useAxiosGetProps): useAxiosGetReturnType => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState(null);
 
   const afterResolve = useCallback((responseData) => {
       setData(responseData);
-      setLoading(false);
-
       if(callback){
         callback();
       }
-    },[setData, setLoading, callback]
+    },[setData, callback]
   );
 
   const refetch = async() => {
@@ -39,6 +39,9 @@ const useAxiosGet = ({ endpoint, callback }: useAxiosGetProps): useAxiosGetRetur
 
     await api.get(`${API_URL}/${endpoint}`).then(res => {
       setData(res.data);
+    }).catch((err) => {
+      setError(err);
+    }).finally(() => {
       setLoading(false);
     });
   }
@@ -51,14 +54,18 @@ const useAxiosGet = ({ endpoint, callback }: useAxiosGetProps): useAxiosGetRetur
         'Authorization': `Bearer ${token}`
       }
     });
-
+    setLoading(true);
     api.get(`${API_URL}/${endpoint}`).then(res => {
       afterResolve(res.data);
+    }).catch((err) => {
+      setError(err);
+    }).finally(() => {
+      setLoading(false);
     });
 
   }, [afterResolve, endpoint]);
 
-  return { data, loading, refetch };
+  return { data, loading, error, refetch };
 };
 
 export default useAxiosGet;
