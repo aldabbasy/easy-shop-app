@@ -8,6 +8,7 @@ type useAxiosPostReturnType = [
   {
     data: any;
     loading: boolean;
+    error: any;
   }
 ]
 
@@ -20,6 +21,7 @@ type useAxiosPostProps = {
 const useAxiosPost = ({ endpoint }: useAxiosPostProps): useAxiosPostReturnType => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState(null);
 
   const api = axios.create({
     headers: {
@@ -32,11 +34,14 @@ const useAxiosPost = ({ endpoint }: useAxiosPostProps): useAxiosPostReturnType =
 
     await api.post(`${API_URL}/${endpoint}`, body).then(res => {
       setData(res.data);
+    }).catch((err) => {
+      setError(err);
+    }).finally(() => {
       setLoading(false);
     });
   }
 
-  return [sendRequest, { data, loading }];
+  return [sendRequest, { data, loading, error }];
 };
 
 export default useAxiosPost;

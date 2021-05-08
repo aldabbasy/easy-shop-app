@@ -15,7 +15,8 @@ export const useNavBarStyles = makeStyles((theme: Theme) =>
       flexGrow: 1,
       display: 'flex',
       alignItems: 'center',
-      justifyContent: 'flex-end'
+      justifyContent: 'flex-end',
+      marginRight: theme.spacing(1),
     },
     search: {
       position: 'relative',
@@ -70,6 +71,10 @@ export const useNavBarStyles = makeStyles((theme: Theme) =>
     },
     logoutBtn: {
       backgroundColor: theme.palette.secondary.main
+    },
+    link: {
+      color: theme.palette.text.primary,
+      textDecoration: 'none'
     }
   }),
 );

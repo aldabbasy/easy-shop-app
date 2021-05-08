@@ -27,6 +27,12 @@ const useStyles = makeStyles((theme) => ({
   },
   counter: {
     marginRight: theme.spacing(1)
+  },
+  chevron: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: '40px'
   }
 }));
 
@@ -50,9 +56,9 @@ const ProductCard = ({product}) => {
           <CardHeader 
             title={product?.name}
             action={
-              <IconButton aria-label="goto-product">
+              <div className={classes.chevron}>
                 <ChevronRightOutlinedIcon />  
-              </IconButton>
+              </div>
             }
           />
           <CardContent>
