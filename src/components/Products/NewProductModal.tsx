@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -13,7 +13,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import useAxiosPost from '../../hooks/useAxiosPost';
 
 const NewProductModal = ({classes, handleClose, refetchProducts}) => {
-  const [handleCreateProduct, {loading}] = useAxiosPost({endpoint: 'api/products/create'})
+  const [handleCreateProduct, {loading}] = useAxiosPost({endpoint: 'api/products/create'});
   const { control, handleSubmit, errors } = useForm();
   const onChange = (args:any) => ({ value: args[0].target.value });
 

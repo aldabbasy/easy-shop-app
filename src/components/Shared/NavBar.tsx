@@ -39,22 +39,26 @@ const NavBar = () => {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem onClick={handleMobileMenuClose}>
-        <IconButton aria-label="Home" color="inherit">
-          <HomeRoundedIcon />
-        </IconButton>
-        <p>Home</p>
-      </MenuItem>
-      <MenuItem onClick={handleMobileMenuClose}>
-        <IconButton aria-label="Cart" color="inherit">
-          <ShoppingCartRoundedIcon />
-        </IconButton>
-        <p>Cart</p>
-      </MenuItem>
-      <Link to='/logout'>
-        <MenuItem className={classes.logoutBtn} >
-          <IconButton aria-label="Logout" color='inherit'>
-            <MeetingRoomRoundedIcon />
+      <Link to='/' className={classes.link}>
+        <MenuItem onClick={handleMobileMenuClose}>
+          <IconButton aria-label="Home" color="inherit">
+            <HomeRoundedIcon />
+          </IconButton>
+          <p>Home</p>
+        </MenuItem>
+      </Link>
+      <Link to='/cart' className={classes.link}>
+        <MenuItem onClick={handleMobileMenuClose}>
+          <IconButton aria-label="Cart" color="inherit">
+            <ShoppingCartRoundedIcon />
+          </IconButton>
+          <p>Cart</p>
+        </MenuItem>
+      </Link>
+      <Link to='/logout' className={classes.link}>
+        <MenuItem >
+          <IconButton aria-label="Logout">
+            <MeetingRoomRoundedIcon color={'error'} />
           </IconButton>
           <p>Logout</p>
         </MenuItem>
@@ -68,7 +72,7 @@ const NavBar = () => {
 
   return (
     <div className={classes.grow}>
-      <AppBar position="static" color={'default'}>
+      <AppBar position="fixed" color={'default'}>
         <Toolbar>
           <Typography className={classes.title} variant="h6" noWrap>
             EasyShop
@@ -92,17 +96,21 @@ const NavBar = () => {
             </Typography>
           </div>
           <div className={classes.sectionDesktop}>
-            <IconButton aria-label="Home" color="inherit">
-              <HomeRoundedIcon />
-            </IconButton>
-            <IconButton aria-label="Cart" color="inherit">
-              <Badge badgeContent={userData?.cart_items_count} color="secondary">
-                <ShoppingCartRoundedIcon />
-              </Badge>
-            </IconButton>
-            <Link to='/logout'>
-              <IconButton aria-label="Logout" color='secondary'>
-                <MeetingRoomRoundedIcon />
+            <Link to='/' className={classes.link}>
+              <IconButton aria-label="Home" color="inherit">
+                <HomeRoundedIcon />
+              </IconButton>
+            </Link>
+            <Link to='/cart' className={classes.link}>
+              <IconButton aria-label="Cart" color="inherit">
+                <Badge badgeContent={userData?.cart_items_count} color="secondary">
+                  <ShoppingCartRoundedIcon />
+                </Badge>
+              </IconButton>
+            </Link>
+            <Link to='/logout' className={classes.link}>
+              <IconButton aria-label="Logout">
+                <MeetingRoomRoundedIcon color='error' />
               </IconButton>
             </Link>
           </div>
