@@ -60,7 +60,7 @@ const ProductList = () => {
     <>
       <Box padding={4}>
         <Grid container>
-          {loading ? <Spinner /> : data.map((product:any) => <ProductCard key={product.id} product={product} />)}
+          {loading ? <Spinner /> : data?.map((product:any) => <ProductCard key={product.id} product={product} />)}
         </Grid>
       </Box>
       <Fab color="primary" aria-label="add" className={classes.fab} onClick={handleOpen}>
