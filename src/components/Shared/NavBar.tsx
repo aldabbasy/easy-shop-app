@@ -8,6 +8,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import IconButton from '@material-ui/core/IconButton';
 import ShoppingCartRoundedIcon from '@material-ui/icons/ShoppingCartRounded';
 import HomeRoundedIcon from '@material-ui/icons/HomeRounded';
+import Brightness4RoundedIcon from '@material-ui/icons/Brightness4Rounded';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
@@ -15,10 +16,13 @@ import Badge from '@material-ui/core/Badge';
 import MeetingRoomRoundedIcon from '@material-ui/icons/MeetingRoomRounded';
 import { useNavBarStyles } from './styled';
 import UserContext from '../../contexts/UserContext';
+import ThemeContext from '../../contexts/ThemeContext';
 
-const NavBar = () => {
+const NavBar = ({setQuery}) => {
   const classes = useNavBarStyles();
   const userData = useContext(UserContext);
+  const {isDarkTheme, setIsDarkTheme} = useContext(ThemeContext);
+  
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
@@ -72,7 +76,7 @@ const NavBar = () => {
 
   return (
     <div className={classes.grow}>
-      <AppBar position="fixed" color={'default'}>
+      <AppBar position="fixed" color={isDarkTheme ? 'default': 'primary'}>
         <Toolbar>
           <Typography className={classes.title} variant="h6" noWrap>
             EasyShop
@@ -82,6 +86,7 @@ const NavBar = () => {
               <SearchIcon />
             </div>
             <InputBase
+              onChange={(e) => {setQuery(e.target.value.trim())}}
               placeholder="Search…"
               classes={{
                 root: classes.inputRoot,
@@ -95,14 +100,17 @@ const NavBar = () => {
               {userData?.user_name}
             </Typography>
           </div>
+          <IconButton aria-label="toggle-theme" onClick={() => {setIsDarkTheme(!isDarkTheme)}}>
+              <Brightness4RoundedIcon />
+          </IconButton>
           <div className={classes.sectionDesktop}>
             <Link to='/' className={classes.link}>
-              <IconButton aria-label="Home" color="inherit">
+              <IconButton aria-label="Home" >
                 <HomeRoundedIcon />
               </IconButton>
             </Link>
             <Link to='/cart' className={classes.link}>
-              <IconButton aria-label="Cart" color="inherit">
+              <IconButton aria-label="Cart" >
                 <Badge badgeContent={userData?.cart_items_count} color="secondary">
                   <ShoppingCartRoundedIcon />
                 </Badge>
