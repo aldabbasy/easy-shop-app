@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Grid from '@material-ui/core/Grid';
 import ProductCard from './ProductCard';
 import useAxiosGet from '../../hooks/useAxiosGet';
@@ -12,6 +12,8 @@ import Fade from '@material-ui/core/Fade';
 import AddIcon from '@material-ui/icons/Add';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import NewProductModal from './NewProductModal';
+import UserContext from '../../contexts/UserContext';
+import SearchContext from '../../contexts/SearchContext';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -47,7 +49,9 @@ const ProductList = () => {
   const classes = useStyles();
   const [open, setOpen] = useState<boolean>(false);
   const {data, loading, refetch} = useAxiosGet({endpoint: 'api/products/'});
-  
+  const { user_role } = useContext(UserContext);
+  const { query } = useContext(SearchContext);
+
   const handleOpen = () => {
     setOpen(true);
   };
@@ -56,16 +60,26 @@ const ProductList = () => {
     setOpen(false);
   };
 
+  const dataToRender = user_role === 1 ? (
+    data?.filter((product) => product.status.status_code === 1)
+    ) : user_role === 3 ? (
+        data?.filter((product) => product.status.status_code === 0)
+        ) : data;
+
+  const filteredDataToRender = query ? dataToRender?.filter((product) => product.name.toUpperCase().includes(query.toUpperCase())) : dataToRender;
+
   return (
     <>
       <Box padding={4}>
         <Grid container>
-          {loading ? <Spinner /> : data?.map((product:any) => <ProductCard key={product.id} product={product} />)}
+          {loading ? <Spinner /> : filteredDataToRender?.map((product:any) => <ProductCard key={product.id} product={product} refetch={refetch} />)}
         </Grid>
       </Box>
-      <Fab color="primary" aria-label="add" className={classes.fab} onClick={handleOpen}>
-        <AddIcon />
-      </Fab>
+      {user_role === 2 && (
+        <Fab color="primary" aria-label="add" className={classes.fab} onClick={handleOpen}>
+          <AddIcon />
+        </Fab>
+      )}
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
