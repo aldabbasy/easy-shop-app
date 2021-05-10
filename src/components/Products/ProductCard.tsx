@@ -86,7 +86,6 @@ type ProductCardBusUserFooterProps = {
 };
 function ProductCardBusUserFooter({status, classes}: ProductCardBusUserFooterProps) {
   const statusColor = status.status_code === 0 ? 'warning' :  (status.status_code === 1 ? 'success' : 'error')
-  console.log(status.status_code)
   return (
     <Alert variant="outlined"  severity={statusColor} className={classes.alert}>
       {status.status}

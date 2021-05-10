@@ -90,7 +90,7 @@ const CreateUserModal = ({classes, handleClose}) => {
         />
         <FormControl component="fieldset" className={classes.formControl}>
           <FormLabel component="legend">Role</FormLabel>
-          <RadioGroup row aria-label="role" name="role" value={role} onChange={(e) => {console.log(e.target.value); setRole(e.target.value)}}>
+          <RadioGroup row aria-label="role" name="role" value={role} onChange={(e) => {setRole(e.target.value)}}>
             <FormControlLabel value={2} control={<Radio color={'primary'} checked={role === '2'} />} label="Business User" />
             <FormControlLabel value={3} control={<Radio color={'primary'} checked={role === '3'} />} label="Manager" />
             <FormControlLabel value={4} control={<Radio color={'primary'} checked={role === '4'} />} label="Admin" />
