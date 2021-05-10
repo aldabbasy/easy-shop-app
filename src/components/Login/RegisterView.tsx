@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useHistory } from "react-router-dom";
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -8,26 +8,35 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { useStyles } from './styled';
-import { authenticateUser } from '../../utils/auth';
+import useAxiosPost from '../../hooks/useAxiosPost';
 
-const LoginView = () => {
+const RegisterView = () => {
   const classes = useStyles();
   const history = useHistory();
-  const [loading, setLoading] = useState(false);
-  
+  const [RegisterUser, {data, loading, error}] = useAxiosPost({ endpoint: '/api/users/register' });
+
   const { control, handleSubmit, errors } = useForm();
   const onChange = (args:any) => ({ value: args[0].target.value });
 
   const handleSubmitform = handleSubmit(form => {
-    setLoading(true);
-    authenticateUser({username: form.username, password: form.password}).then((data) => {
-      history.push('/');
-    }).catch((e) => {
-      alert('invalid username/password');
-    }).finally(() => {
-      setLoading(false);
-    })
+    if(form.password !== form.confirm_password){
+      alert('not matching passwords!');
+      return;
+    }
+    RegisterUser({...form});
   });
+
+  useEffect(() => {
+    if(error){
+      alert(error);
+    }
+  }, [error]);
+
+  useEffect(() => {
+    if(data){
+      history.push('/login');
+    }
+  }, [data])
 
   return (
     <div className={classes.paper}>
@@ -35,7 +44,7 @@ const LoginView = () => {
         <LockOutlinedIcon />
       </Avatar>
       <Typography component='h1' variant='h5'>
-        Sign in
+        Register
       </Typography>
       <div className={classes.form}>
         <Controller
@@ -76,6 +85,25 @@ const LoginView = () => {
           defaultValue={''}
           rules={{ required: true }}
         />
+        <Controller
+          as={
+            <TextField
+              variant="outlined"
+              margin="normal"
+              fullWidth
+              label="Confirm Password"
+              type="password"
+              id="password"
+              autoComplete="off"
+              error={!!errors.confirm_password}
+            />
+          }
+          control={control}
+          name={'confirm_password'}
+          onChange={onChange}
+          defaultValue={''}
+          rules={{ required: true }}
+        />
         <Button
           type="submit"
           fullWidth
@@ -85,7 +113,7 @@ const LoginView = () => {
           onClick={handleSubmitform}
           disabled={loading}
         >
-          {loading ? <CircularProgress size={30} /> : 'Sign in'}
+          {loading ? <CircularProgress size={30} /> : 'Register'}
         </Button>
         <Button
           type="button"
@@ -93,13 +121,13 @@ const LoginView = () => {
           color="primary"
           className={classes.submit}
           fullWidth
-          onClick={() => {history.push('/register')}}
+          onClick={() => {history.push('/login')}}
         >
-          Create an Account?
+          Already have an Account?
         </Button>
       </div>
     </div>
   )
 }
 
-export default LoginView;
+export default RegisterView;

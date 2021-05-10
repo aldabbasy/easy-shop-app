@@ -7,18 +7,20 @@ import Logout from '../components/Login/Logout';
 import ProtectedRoute from '../components/Shared/ProtectedRoute';
 import NavBar from '../components/Shared/NavBar';
 import { SearchProvider } from '../contexts/SearchContext';
+import Register from '../pages/Register';
 
 const Routes = () => {
   const location = useLocation();
   const [query, setQuery] = useState('')
   return (
     <>
-      {(location.pathname !== '/login') && <NavBar setQuery={setQuery} />}
+      {(!['/login', '/register'].includes(location.pathname)) && <NavBar setQuery={setQuery} />}
       <SearchProvider value={{query}}>
         <Switch>
           <ProtectedRoute exact path="/" component={Home} />
           <ProtectedRoute exact path="/cart" component={Cart} />
           <Route path="/login" component={Login} />
+          <Route path="/register" component={Register} />
           <Route path="/logout" component={Logout} />
           <Route path="/*" component={() => <div style={{display:'flex', alignItems: 'center', justifyContent: 'center', height: '100vh'}}>404 page not found</div>} />
         </Switch>

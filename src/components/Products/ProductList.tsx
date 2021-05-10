@@ -10,10 +10,12 @@ import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import AddIcon from '@material-ui/icons/Add';
+import PersonAddRoundedIcon from '@material-ui/icons/PersonAddRounded';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import NewProductModal from './NewProductModal';
 import UserContext from '../../contexts/UserContext';
 import SearchContext from '../../contexts/SearchContext';
+import CreateUserModal from '../Login/CreateUserModal';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -41,7 +43,12 @@ const useStyles = makeStyles((theme: Theme) =>
       boxShadow: theme.shadows[5],
       padding: theme.spacing(2),
       borderRadius: theme.shape.borderRadius
-    }
+    },
+    formControl: {
+      marginTop: theme.spacing(2),
+      minWidth: 120,
+      width: '100%'
+    },
   }),
 );
 
@@ -76,27 +83,53 @@ const ProductList = () => {
         </Grid>
       </Box>
       {user_role === 2 && (
-        <Fab color="primary" aria-label="add" className={classes.fab} onClick={handleOpen}>
-          <AddIcon />
-        </Fab>
+        <>
+          <Fab color="primary" aria-label="add" className={classes.fab} onClick={handleOpen}>
+            <AddIcon />
+          </Fab>
+          <Modal
+            aria-labelledby="transition-modal-title"
+            aria-describedby="transition-modal-description"
+            className={classes.modal}
+            open={open}
+            onClose={handleClose}
+            closeAfterTransition
+            BackdropComponent={Backdrop}
+            disableBackdropClick
+            BackdropProps={{
+              timeout: 500,
+            }}
+          >
+          <Fade in={open}>
+            <NewProductModal handleClose={handleClose} classes={classes} refetchProducts={refetch} />
+          </Fade>
+        </Modal>
+        </>
       )}
-      <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        className={classes.modal}
-        open={open}
-        onClose={handleClose}
-        closeAfterTransition
-        BackdropComponent={Backdrop}
-        disableBackdropClick
-        BackdropProps={{
-          timeout: 500,
-        }}
-      >
-        <Fade in={open}>
-          <NewProductModal handleClose={handleClose} classes={classes} refetchProducts={refetch} />
-        </Fade>
-      </Modal>
+      {user_role === 4 && (
+        <>
+          <Fab color="primary" aria-label="add-user" className={classes.fab} onClick={handleOpen}>
+            <PersonAddRoundedIcon />
+          </Fab>
+          <Modal
+            aria-labelledby="transition-modal-title"
+            aria-describedby="transition-modal-description"
+            className={classes.modal}
+            open={open}
+            onClose={handleClose}
+            closeAfterTransition
+            BackdropComponent={Backdrop}
+            disableBackdropClick
+            BackdropProps={{
+              timeout: 500,
+            }}
+          >
+          <Fade in={open}>
+            <CreateUserModal handleClose={handleClose} classes={classes} />
+          </Fade>
+        </Modal>
+        </>
+      )}
     </>
   )
 };
