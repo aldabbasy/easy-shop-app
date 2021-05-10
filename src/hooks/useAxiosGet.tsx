@@ -12,21 +12,13 @@ type useAxiosGetReturnType = {
 
 type useAxiosGetProps = {
   endpoint: string;
-  callback?: () => {};
 }
 
-const useAxiosGet = ({ endpoint, callback }: useAxiosGetProps): useAxiosGetReturnType => {
+const useAxiosGet = ({ endpoint }: useAxiosGetProps): useAxiosGetReturnType => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState(null);
 
-  const afterResolve = useCallback((responseData) => {
-      setData(responseData);
-      if(callback){
-        callback();
-      }
-    },[setData, callback]
-  );
 
   const refetch = async() => {
     setLoading(true);
@@ -57,14 +49,14 @@ const useAxiosGet = ({ endpoint, callback }: useAxiosGetProps): useAxiosGetRetur
     });
 
     api.get(`${API_URL}/${endpoint}`).then(res => {
-      afterResolve(res.data);
+      setData(res.data);
     }).catch((err) => {
       setError(err);
     }).finally(() => {
       setLoading(false);
     });
 
-  }, [afterResolve, endpoint]);
+  }, [endpoint]);
 
   return { data, loading, error, refetch };
 };
