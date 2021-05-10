@@ -46,15 +46,16 @@ const useAxiosGet = ({ endpoint, callback }: useAxiosGetProps): useAxiosGetRetur
     });
   }
 
-  useEffect(() => {
-    const token = AppStorage.get('access-token');
 
+  useEffect(() => {
+    setLoading(true);
+    const token = AppStorage.get('access-token');
     const api = axios.create({
       headers: {
         'Authorization': `Bearer ${token}`
       }
     });
-    setLoading(true);
+
     api.get(`${API_URL}/${endpoint}`).then(res => {
       afterResolve(res.data);
     }).catch((err) => {

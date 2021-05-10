@@ -6,6 +6,7 @@ const Logout = () => {
 
   useEffect(() => {
     AppStorage.remove('access-token');
+    AppStorage.remove('refresh-token');
   }, [])
 
   return (

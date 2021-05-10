@@ -124,7 +124,7 @@ function ProductCardManagerFooter({ pid, refetch }: ProductCardManagerFooterProp
 const ProductCard = ({product, refetch}) => {
   const classes = useStyles();
   const [quantity, setQuantity] = useState(0);
-  const [addToCart, {loading}] = useAxiosPost({endpoint: 'api/carts/add_to_cart'});
+  const [addToCart] = useAxiosPost({endpoint: 'api/carts/add_to_cart'});
   const { refetchUserData, user_role } = useContext(UserContext);
   const { isDarkTheme } = useContext(ThemeContext);
 

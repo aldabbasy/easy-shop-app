@@ -72,7 +72,7 @@ const NavBar = ({setQuery}) => {
 
   useEffect(() => {
     userData.refetchUserData();
-  }, [])
+  }, [userData])
 
   return (
     <div className={classes.grow}>

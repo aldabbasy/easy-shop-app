@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Card from '@material-ui/core/Card';
@@ -10,7 +10,6 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { makeStyles } from '@material-ui/core';
 import useAxiosPost from '../../hooks/useAxiosPost';
 import UserContext from '../../contexts/UserContext';
-import Spinner from '../Shared/Spinner';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 
 const CartItem = ({ cartItem, refetch, handleRemoveItems }) => {
   const classes = useStyles();
-  const [removeItemFromCart, { data, loading }] = useAxiosPost({ endpoint: 'api/carts/remove_from_cart' });
+  const [removeItemFromCart, { loading }] = useAxiosPost({ endpoint: 'api/carts/remove_from_cart' });
   const { refetchUserData } = useContext(UserContext);
   const handleRemoveItemFromCart = (id) => {
     removeItemFromCart({ id }).then((res) => {

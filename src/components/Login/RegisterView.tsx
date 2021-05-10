@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useHistory } from "react-router-dom";
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -35,7 +35,7 @@ const RegisterView = () => {
       setType('error');
       showSnackBar();
     }
-  }, [error]);
+  }, [error, setMessage, setType, showSnackBar]);
 
   useEffect(() => {
     if(data){

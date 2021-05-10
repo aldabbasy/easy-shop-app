@@ -24,7 +24,6 @@ export const useStyles = makeStyles((theme) => ({
 const CartView = () => {
   const classes = useStyles();
   const [removedItems, setRemovedItems] = useState([]);
-  const [open, setOpen] = useState(false);
   const {data, loading, refetch} = useAxiosGet({endpoint: 'api/carts/get_cart'});
   const [checkout, {loading: checkoutLoading}] = useAxiosPost({endpoint: 'api/carts/checkout'});
   const { refetchUserData } = useContext(UserContext);
