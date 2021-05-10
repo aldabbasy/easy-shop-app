@@ -2,14 +2,14 @@ import React, { useContext, useState } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
-import Snackbar from '@material-ui/core/Snackbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from "@material-ui/core";
 import CartItem from './CartItem';
 import useAxiosGet from '../../hooks/useAxiosGet';
 import useAxiosPost from '../../hooks/useAxiosPost';
-import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 import UserContext from '../../contexts/UserContext';
+import SnackBarContext from '../../contexts/SnackBarContext';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 export const useStyles = makeStyles((theme) => ({
   paper: {
@@ -21,25 +21,14 @@ export const useStyles = makeStyles((theme) => ({
 }));
 
 
-
-function Alert(props: AlertProps) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
-
 const CartView = () => {
   const classes = useStyles();
   const [removedItems, setRemovedItems] = useState([]);
   const [open, setOpen] = useState(false);
   const {data, loading, refetch} = useAxiosGet({endpoint: 'api/carts/get_cart'});
-  const [checkout] = useAxiosPost({endpoint: 'api/carts/checkout'});
+  const [checkout, {loading: checkoutLoading}] = useAxiosPost({endpoint: 'api/carts/checkout'});
   const { refetchUserData } = useContext(UserContext);
-
-  const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setOpen(false);
-  };
+  const {showSnackBar, setMessage, setType} = useContext(SnackBarContext);
 
   const dataToRender = data?.filter((item) => !removedItems.includes(item?.id));
 
@@ -50,7 +39,10 @@ const CartView = () => {
     checkout({status:1}).then((res) => {
       refetch();
       refetchUserData();
-      setOpen(true);
+      //Cart Checked Out Sccessfuly
+      setMessage('Cart Checked Out Sccessfuly');
+      setType('success');
+      showSnackBar();
     });
   }
 
@@ -73,27 +65,15 @@ const CartView = () => {
         </Grid>
         <Box position='fixed' bottom={16} width={500}>
           <Button disabled={!dataToRender?.length} variant={'contained'} color={'primary'} fullWidth onClick={handleCheckout}>
+            {checkoutLoading ? <CircularProgress color={'inherit'} size={30} />:
             <Box display={'flex'} justifyContent={'space-between'} alignItems={'center'} width={'30%'}>
               <Typography variant={'button'}>Checkout</Typography>
               <Typography variant={'button'}> | </Typography>
               <Typography variant={'subtitle1'}>${calculateTotal()}</Typography>
-            </Box>
+            </Box>}
           </Button>
         </Box>
       </Box>
-      <Snackbar 
-        open={open} 
-        autoHideDuration={6000} 
-        onClose={handleClose} 
-        anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'right',
-        }}
-      >
-        <Alert onClose={handleClose} severity="success">
-          Cart Checked Out Sccessfuly
-        </Alert>
-      </Snackbar>
     </>
   )
 };

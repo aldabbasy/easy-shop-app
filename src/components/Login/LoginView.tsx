@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useHistory } from "react-router-dom";
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -9,12 +9,13 @@ import Button from '@material-ui/core/Button';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { useStyles } from './styled';
 import { authenticateUser } from '../../utils/auth';
+import SnackBarContext from '../../contexts/SnackBarContext';
 
 const LoginView = () => {
   const classes = useStyles();
   const history = useHistory();
   const [loading, setLoading] = useState(false);
-  
+  const {showSnackBar, setMessage, setType} = useContext(SnackBarContext);
   const { control, handleSubmit, errors } = useForm();
   const onChange = (args:any) => ({ value: args[0].target.value });
 
@@ -23,7 +24,9 @@ const LoginView = () => {
     authenticateUser({username: form.username, password: form.password}).then((data) => {
       history.push('/');
     }).catch((e) => {
-      alert('invalid username/password');
+      setMessage('invalid username/password');
+      setType('error');
+      showSnackBar();
     }).finally(() => {
       setLoading(false);
     })

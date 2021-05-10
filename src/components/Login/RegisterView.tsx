@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useHistory } from "react-router-dom";
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -9,18 +9,21 @@ import Button from '@material-ui/core/Button';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { useStyles } from './styled';
 import useAxiosPost from '../../hooks/useAxiosPost';
+import SnackBarContext from '../../contexts/SnackBarContext';
 
 const RegisterView = () => {
   const classes = useStyles();
   const history = useHistory();
   const [RegisterUser, {data, loading, error}] = useAxiosPost({ endpoint: '/api/users/register' });
-
+  const {showSnackBar, setMessage, setType} = useContext(SnackBarContext);
   const { control, handleSubmit, errors } = useForm();
   const onChange = (args:any) => ({ value: args[0].target.value });
 
   const handleSubmitform = handleSubmit(form => {
     if(form.password !== form.confirm_password){
-      alert('not matching passwords!');
+      setMessage('not matching passwords!');
+      setType('error');
+      showSnackBar();
       return;
     }
     RegisterUser({...form});
@@ -28,7 +31,9 @@ const RegisterView = () => {
 
   useEffect(() => {
     if(error){
-      alert(error);
+      setMessage('user name already exists!!!');
+      setType('error');
+      showSnackBar();
     }
   }, [error]);
 

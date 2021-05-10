@@ -3,18 +3,15 @@ import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
-import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Badge from '@material-ui/core/Badge';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
-import Chip from '@material-ui/core/Chip';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import RemoveIcon from '@material-ui/icons/Remove';
 import AddIcon from '@material-ui/icons/Add';
-import ChevronRightOutlinedIcon from '@material-ui/icons/ChevronRightOutlined';
 import { CircularProgress, makeStyles } from '@material-ui/core';
 import useAxiosPost from '../../hooks/useAxiosPost';
 import UserContext from '../../contexts/UserContext';
@@ -140,23 +137,16 @@ const ProductCard = ({product, refetch}) => {
     <Grid item xl={3} lg={4} md={12} sm={12} xs={12} >
       <Box margin={2}>
         <Card className={classes.root} raised>
-        <CardActionArea>
-          <CardHeader
-            className={!isDarkTheme && classes.cardHeader}
-            color={isDarkTheme ? 'default' : 'primary'} 
-            title={product?.name}
-            action={
-              <div className={classes.chevron}>
-                <ChevronRightOutlinedIcon />  
-              </div>
-            }
-          />
-          <CardContent>
-            <Typography variant="body2" color="textSecondary" component="p">
-              {product?.description.slice(0, 200)}
-            </Typography>
-          </CardContent>
-        </CardActionArea>
+        <CardHeader
+          className={!isDarkTheme && classes.cardHeader}
+          color={isDarkTheme ? 'default' : 'primary'} 
+          title={product?.name}
+        />
+        <CardContent>
+          <Typography variant="body2" color="textSecondary" component="p">
+            {product?.description.slice(0, 200)}
+          </Typography>
+        </CardContent>
         <CardActions>
           <Box display={'flex'} justifyContent={'space-between'} width={'100%'} paddingRight={1} paddingLeft={1}>
             <Typography variant='h5' color="primary" component="p">
